@@ -117,7 +117,7 @@ const LoginComponent = () => {
 
                             <div className="btns">
                                 <button onClick={googleAuth} ><Google /> Continue with Google</button>
-                                <button><Microsoft /> Continue with Microsoft Account</button>
+                                {/* <button><Microsoft /> Continue with Microsoft Account</button> */}
                             </div>
 
                         </div>

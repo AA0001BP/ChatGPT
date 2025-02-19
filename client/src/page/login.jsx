@@ -39,13 +39,13 @@ const Login = () => {
         {auth ? (
           <LoginComponent />
         ) : (
-          <div className="suggection">
+          <div className="suggestion">
             <div>
               <GptIcon />
             </div>
 
             <div>
-              <p>Welcome to ChatGPT</p>
+              <p>Welcome to Essay AI</p>
               <p>Log in with your OpenAI account to continue</p>
             </div>
 
@@ -68,7 +68,7 @@ const Login = () => {
           </div>
         )}
 
-        <div className="bottum">
+        <div className="bottom">
           <div className="start">
             <a href="https://openai.com/policies/terms-of-use" target="_blank">
               Terms of use

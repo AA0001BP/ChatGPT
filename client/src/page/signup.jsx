@@ -70,7 +70,7 @@ const Signup = () => {
           <>
             <SignupComponent />
 
-            <div className="bottum">
+            <div className="bottom">
               <div className="start">
                 <a
                   href="https://openai.com/policies/terms-of-use"

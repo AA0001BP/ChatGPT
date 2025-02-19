@@ -62,30 +62,28 @@ router.post('/', CheckUser, async (req, res) => {
     let response = {}
 
     try {
-        response.openai = await openai.createCompletion({
-            model: "text-davinci-003",
-            prompt: prompt,
+        response.openai = await openai.createChatCompletion({
+            model: "gpt-3.5-turbo",
+            messages: [{ role: "user", content: prompt }],
             temperature: 0,
             max_tokens: 100,
             top_p: 1,
             frequency_penalty: 0.2,
             presence_penalty: 0,
         });
-
-        if (response?.openai?.data?.choices?.[0]?.text) {
-            response.openai = response.openai.data.choices[0].text
-            let index = 0
-            for (let c of response['openai']) {
-                if (index <= 1) {
-                    if (c == '\n') {
-                        response.openai = response.openai.slice(1, response.openai.length)
-                    }
-                } else {
-                    break;
-                }
-                index++
-            }
-            response.db = await chat.newResponse(prompt, response, userId)
+        console.log("OpenAI Response:", response.openai);
+        if (response?.openai?.data?.choices?.[0]?.message?.content) {
+            // Get the content from OpenAI response
+            response.openai = response.openai.data.choices[0].message.content;
+            console.log("Get the content from OpenAI response:", response.openai);
+            
+            // Remove up to two leading newlines
+            response.openai = response.openai.replace(/^\n{0,2}/, '');
+            console.log("Remove up to two leading newlines:", response.openai);
+            
+            // Save the response to the database
+            response.db = await chat.newResponse(prompt, response, userId);
+            console.log("Save the response to the database:", response.db);
         }
     } catch (err) {
         res.status(500).json({
@@ -112,9 +110,9 @@ router.put('/', CheckUser, async (req, res) => {
     let response = {}
 
     try {
-        response.openai = await openai.createCompletion({
-            model: "text-davinci-003",
-            prompt: prompt,
+        response.openai = await openai.createChatCompletion({
+            model: "gpt-3.5-turbo",
+            messages: [{ role: "user", content: prompt }],
             temperature: 0.7,
             max_tokens: 100,
             top_p: 1,
@@ -122,19 +120,9 @@ router.put('/', CheckUser, async (req, res) => {
             presence_penalty: 0,
         });
 
-        if (response?.openai?.data?.choices?.[0]?.text) {
-            response.openai = response.openai.data.choices[0].text
-            let index = 0
-            for (let c of response['openai']) {
-                if (index <= 1) {
-                    if (c == '\n') {
-                        response.openai = response.openai.slice(1, response.openai.length)
-                    }
-                } else {
-                    break;
-                }
-                index++
-            }
+        if (response?.openai?.data?.choices?.[0]?.message?.content) {
+            response.openai = response.openai.data.choices[0].message.content;
+            response.openai = response.openai.replace(/^\n{0,2}/, '');
             response.db = await chat.updateChat(chatId, prompt, response, userId)
         }
     } catch (err) {

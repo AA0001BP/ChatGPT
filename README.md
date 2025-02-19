@@ -1,4 +1,4 @@
-# ChatGPT
+# EssayAI
 This clone is made with MERN and uses OpenAI API.
 
 This project is clone of chatGPT , chatGPT is an AI . It's allows you to have human-like conversations.
@@ -66,7 +66,7 @@ To run this project, you will need to add the following environment variables to
 Clone the project
 
 ```bash
-  git clone https://github.com/ansonbenny/ChatGPT.git
+  git clone https://github.com/pankajpj07/EssayAI.git
 ```
 
 ##To Start BackEnd
@@ -74,7 +74,7 @@ Clone the project
 Go to the server directory
 
 ```bash
-  cd ChatGPT/server
+  cd EssayAI/server
 ```
 
 Install dependencies
@@ -94,7 +94,7 @@ Start
 Go to the client directory
 
 ```bash
-  cd ChatGPT/client
+  cd EssayAI/client
 ```
 
 Install dependencies
@@ -143,4 +143,4 @@ https://user-images.githubusercontent.com/94070164/236692494-a50edafc-7864-439a-
 
 
 ## 🔗 Links
-[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/anson-benny-502961238/)
+[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/pankaj07/)

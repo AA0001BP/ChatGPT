@@ -163,6 +163,7 @@ const InputArea = ({ status, chatRef, stateAction }) => {
           const { _id, content } = res?.data?.data;
 
           dispatch(insertNew({ _id, fullContent: content, chatsId }));
+          dispatch(livePrompt(''));
 
           chatRef?.current?.loadResponse(stateAction, content, chatsId);
 
@@ -206,8 +207,15 @@ const InputArea = ({ status, chatRef, stateAction }) => {
                 placeholder="Send a message..."
                 ref={textAreaRef}
                 value={prompt}
+                readOnly={status?.loading}
                 onChange={(e) => {
                   dispatch(livePrompt(e.target.value));
+                }}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" && !e.shiftKey) {
+                    e.preventDefault();
+                    FormHandle();
+                  }
                 }}
               />
               {!status?.loading ? (
@@ -258,14 +266,14 @@ const InputArea = ({ status, chatRef, stateAction }) => {
         </div>
       )}
 
-      <div className="text">
-        <a
+      <div className="text" style={{ textAlign: "center" }}>
+        {/* <a
           target="_blank"
           href="https://help.openai.com/en/articles/6825453-chatgpt-release-notes"
         >
-          ChatGPT Mar 14 Version.
-        </a>{" "}
-        Free Research Preview. Our goal is to make AI systems more natural and
+          EssayAI Mar 14 Version.
+        </a>{" "} */}
+        Our goal is to make Essay AI more natural and
         safe to interact with. Your feedback will help us improve.
       </div>
     </div>

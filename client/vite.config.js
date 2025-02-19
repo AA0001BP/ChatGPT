@@ -25,9 +25,9 @@ export default defineConfig({
         display: "fullscreen",
         scope: "/",
         start_url: "/",
-        name: "ChatGPT",
-        short_name: "ChatGPT",
-        description: "ChatGPT OpenAI",
+        name: "EssayAI",
+        short_name: "EssayAI",
+        description: "EssayAI OpenAI",
         icons: [
           {
             src: "/manifest/icon-192x192.png",
