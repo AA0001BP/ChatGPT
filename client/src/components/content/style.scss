@@ -281,8 +281,8 @@
                 justify-content: center;
                 right: -4px;
                 bottom: -4px;
-                color: rgba(255,255,255,1);
-                border: 1px solid rgba(255,255,255,1);
+                color: rgba(255, 255, 255, 1);
+                border: 1px solid rgba(255, 255, 255, 1);
             }
         }
 
@@ -314,4 +314,17 @@
             }
         }
     }
+}
+
+.check-icon {
+    transform: scale(0.8);
+}
+
+.pricing-card {
+    background-color: rgba(52, 53, 65, 0.7);
+    backdrop-filter: blur(10px);
+}
+
+.popular-border {
+    border: 1px solid rgb(16, 163, 127);
 }

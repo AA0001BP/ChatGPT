@@ -1,10 +1,12 @@
 import nodemailer from 'nodemailer'
-import dotnet from 'dotenv'
+import dotenv from 'dotenv'
 
-dotnet.config()
+dotenv.config()
 
 const transporter = nodemailer.createTransport({
-    service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
     auth: {
         user: process.env.MAIL_EMAIL,
         pass: process.env.MAIL_SECRET
@@ -13,7 +15,7 @@ const transporter = nodemailer.createTransport({
 
 export default ({ to, subject, html }) => {
     var options = {
-        from: `OpenAI <${process.env.MAIL_EMAIL}>`,
+        from: `EssayAI <${process.env.MAIL_EMAIL}>`,
         to,
         subject,
         html
@@ -21,9 +23,9 @@ export default ({ to, subject, html }) => {
 
     transporter.sendMail(options, function (err, done) {
         if (err) {
-            console.log(err);
+            console.error('Error sending email:', err.message, err.responseCode);
         } else {
-            console.log('Email sent: ', done?.response);
+            console.log('Email sent:', done?.response);
         }
     });
 }

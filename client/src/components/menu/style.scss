@@ -136,7 +136,7 @@ header {
     }
   }
 
-  button[aria-label='new'] {
+  button[aria-label='new'], button[aria-label='toggle'] {
     border: 1px solid hsla(0, 0%, 100%, .2);
     width: calc(260px - 1rem);
     margin-top: .5rem;
@@ -414,5 +414,18 @@ header {
         }
       }
     }
+  }
+}
+.humanize-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 10px 15px;
+  padding: 10px;
+  border-radius: 8px;
+
+  span {
+    font-size: 14px;
+    font-weight: 600;
   }
 }

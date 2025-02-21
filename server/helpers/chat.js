@@ -3,7 +3,7 @@ import collections from "../db/collections.js";
 import { ObjectId } from "mongodb";
 
 export default {
-    newResponse: (prompt, { openai }, userId) => {
+    newResponse: (prompt, { hixai }, userId) => {
         return new Promise(async (resolve, reject) => {
             let chatId = new ObjectId().toHexString()
             let res = null
@@ -15,7 +15,7 @@ export default {
                         chatId,
                         chats: [{
                             prompt,
-                            content: openai
+                            content: hixai
                         }]
                     }]
                 })
@@ -29,7 +29,7 @@ export default {
                                 chatId,
                                 chats: [{
                                     prompt,
-                                    content: openai
+                                    content: hixai
                                 }]
                             }
                         }
@@ -49,7 +49,7 @@ export default {
             }
         })
     },
-    updateChat: (chatId, prompt, { openai }, userId) => {
+    updateChat: (chatId, prompt, { hixai }, userId) => {
         return new Promise(async (resolve, reject) => {
             let res = await db.collection(collections.CHAT).updateOne({
                 user: userId.toString(),
@@ -58,7 +58,7 @@ export default {
                 $push: {
                     'data.$.chats': {
                         prompt,
-                        content: openai
+                        content: hixai
                     }
                 }
             }).catch((err) => {
@@ -104,38 +104,39 @@ export default {
     },
     getHistory: (userId) => {
         return new Promise(async (resolve, reject) => {
-            let res = await db.collection(collections.CHAT).aggregate([
-                {
-                    $match: {
-                        user: userId.toString()
-                    }
-                }, {
-                    $unwind: '$data'
-                }, {
-                    $project: {
-                        _id: 0,
-                        chatId: '$data.chatId',
-                        prompt: {
-                            $arrayElemAt: ['$data.chats.prompt', 0]
+            try {
+                let res = await db.collection(collections.CHAT).aggregate([
+                    {
+                        $match: {
+                            user: userId.toString()
+                        }
+                    },
+                    {
+                        $unwind: "$data"
+                    },
+                    {
+                        $sort: { "data.chatId": -1 } // Sort first to get latest messages
+                    },
+                    {
+                        $limit: 10
+                    },
+                    {
+                        $project: {
+                            _id: 0,
+                            chatId: "$data.chatId",
+                            prompt: {
+                                $arrayElemAt: ['$data.chats.prompt', 0]
+                            },
+                            messages: "$data.chats" // Return full chat history (not just the first message)
                         }
                     }
-                }, {
-                    $limit: 10
-                }, {
-                    $sort: {
-                        chatId: -1
-                    }
-                }
-            ]).toArray().catch((err) => {
-                reject(err)
-            })
+                ]).toArray();
 
-            if (Array.isArray(res)) {
-                resolve(res)
-            } else {
-                reject({ text: "DB Getting Some Error" })
+                resolve(res);
+            } catch (err) {
+                reject({ text: "DB Getting Some Error", error: err });
             }
-        })
+        });
     },
     deleteAllChat: (userId) => {
         return new Promise((resolve, reject) => {
@@ -151,5 +152,15 @@ export default {
                 reject(err)
             })
         })
+    },
+    convertChatHistory(chatData) {
+        let history = [];
+        
+        chatData.forEach(entry => {
+            history.push({ role: "user", content: entry.prompt });
+            history.push({ role: "assistant", content: entry.content });
+        });
+        
+        return history;
     }
 }

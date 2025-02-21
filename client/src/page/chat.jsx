@@ -117,7 +117,7 @@ const InputArea = ({ status, chatRef, stateAction }) => {
 
   const dispatch = useDispatch();
 
-  const { prompt, content, _id } = useSelector((state) => state.messages);
+  const { isHumanize, prompt, content, _id } = useSelector((state) => state.messages);
 
   useEffect(() => {
     textAreaRef.current?.addEventListener("input", (e) => {
@@ -128,6 +128,10 @@ const InputArea = ({ status, chatRef, stateAction }) => {
   });
 
   const FormHandle = async () => {
+    if (isHumanize && prompt.split(" ").length < 50) {
+      alert("Prompt length should be more than 50 words")
+      return
+    }
     if (prompt?.length > 0) {
       stateAction({ type: "chat", status: true });
 
@@ -143,10 +147,12 @@ const InputArea = ({ status, chatRef, stateAction }) => {
           res = await instance.put("/api/chat", {
             chatId: _id,
             prompt,
+            isHumanize
           });
         } else {
           res = await instance.post("/api/chat", {
             prompt,
+            isHumanize
           });
         }
       } catch (err) {
@@ -204,7 +210,7 @@ const InputArea = ({ status, chatRef, stateAction }) => {
           <div className="flexBody">
             <div className="box">
               <textarea
-                placeholder="Send a message..."
+                placeholder={`${isHumanize ? "Paste your AI-generated essay here (must be over 50 words)..." : "Enter your prompt here..."}`}
                 ref={textAreaRef}
                 value={prompt}
                 readOnly={status?.loading}

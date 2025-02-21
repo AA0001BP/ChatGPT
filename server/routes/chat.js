@@ -4,6 +4,7 @@ import { Configuration, OpenAIApi } from 'openai'
 import user from '../helpers/user.js'
 import jwt from 'jsonwebtoken'
 import chat from "../helpers/chat.js";
+import axios from 'axios'
 
 dotnet.config()
 
@@ -52,38 +53,87 @@ const configuration = new Configuration({
 
 const openai = new OpenAIApi(configuration)
 
+const obtainResponse = async (task_id) => {
+    try {
+        const response = await axios.get(`https://bypass.hix.ai/api/hixbypass/v1/obtain?task_id=${task_id}`, {
+            headers: {
+                'api-key': process.env.HIX_API_KEY,
+                'Content-Type': 'application/json'
+            }
+        });
+        const { err_code, data } = response.data
+        if (err_code !== 0) throw new Error("Something went wrong. Please try again later.")
+        if (!data.task_status) {
+            return obtainResponse(task_id)
+        }
+        else {
+            return data
+        }
+    } catch (error) {
+        console.error('Error in Hix API:', error);
+        throw error;
+    }
+}
+// Function to send data to Hix API
+const processWithHixAPI = async (text) => {
+    try {
+        if (text.split(" ").length < 50) throw new Error("Text is too short for humanization")
+        const submitTask = await axios.post('https://bypass.hix.ai/api/hixbypass/v1/submit', {
+            input: text,
+            mode: "latest"
+        }, {
+            headers: {
+                'api-key': process.env.HIX_API_KEY,
+                'Content-Type': 'application/json'
+            }
+        });
+        console.log("submitTask:", submitTask);
+        const task_id = submitTask.data.data.task_id // collect the task_id from bypass
+        const data = await obtainResponse(task_id)
+        return data
+    } catch (error) {
+        console.error('Error in Hix API:', error);
+        throw error;
+    }
+};
+
+
 router.get('/', (req, res) => {
     res.send("Welcome to chatGPT api v1")
 })
 
 router.post('/', CheckUser, async (req, res) => {
-    const { prompt, userId } = req.body
+    const { prompt, userId, isHumanize = false } = req.body
 
     let response = {}
+    let content = isHumanize ? prompt : `Write an essay for more than 50 words based on the given prompt after this. ${prompt}`
 
     try {
-        response.openai = await openai.createChatCompletion({
-            model: "gpt-3.5-turbo",
-            messages: [{ role: "user", content: prompt }],
-            temperature: 0,
-            max_tokens: 100,
-            top_p: 1,
-            frequency_penalty: 0.2,
-            presence_penalty: 0,
-        });
-        console.log("OpenAI Response:", response.openai);
-        if (response?.openai?.data?.choices?.[0]?.message?.content) {
-            // Get the content from OpenAI response
-            response.openai = response.openai.data.choices[0].message.content;
-            console.log("Get the content from OpenAI response:", response.openai);
-            
-            // Remove up to two leading newlines
-            response.openai = response.openai.replace(/^\n{0,2}/, '');
-            console.log("Remove up to two leading newlines:", response.openai);
-            
+        if (isHumanize) {
+            response.data = await processWithHixAPI(prompt);
+            response.hixai = response.data.output.replace(/^\n{0,2}/, '');
             // Save the response to the database
             response.db = await chat.newResponse(prompt, response, userId);
-            console.log("Save the response to the database:", response.db);
+        }
+        else {
+            response.openai = await openai.createChatCompletion({
+                model: "gpt-3.5-turbo",
+                messages: [{ role: "user", content }],
+                temperature: 0,
+                max_tokens: 500,
+                top_p: 1,
+                frequency_penalty: 0.2,
+                presence_penalty: 0,
+            });
+            if (response?.openai?.data?.choices?.[0]?.message?.content) {
+                // Get the content from OpenAI response
+                response.openai = response.openai.data.choices[0].message.content;
+                response.openai = response.openai.replace(/^\n{0,2}/, '');
+                response.data = await processWithHixAPI(response.openai);
+
+                response.hixai = response.data.output.replace(/^\n{0,2}/, '');
+                response.db = await chat.newResponse(prompt, response, userId);
+            }
         }
     } catch (err) {
         res.status(500).json({
@@ -91,13 +141,15 @@ router.post('/', CheckUser, async (req, res) => {
             message: err
         })
     } finally {
-        if (response?.db && response?.openai) {
+        if (response?.db && response?.hixai) {
             res.status(200).json({
                 status: 200,
                 message: 'Success',
                 data: {
                     _id: response.db['chatId'],
-                    content: response.openai
+                    isHumanize,
+                    content: response.hixai,
+                    data: response.data
                 }
             })
         }
@@ -105,38 +157,61 @@ router.post('/', CheckUser, async (req, res) => {
 })
 
 router.put('/', CheckUser, async (req, res) => {
-    const { prompt, userId, chatId } = req.body
+    const { prompt, userId, chatId, isHumanize = false } = req.body
 
     let response = {}
-
+    let messages = [{ role: "user", content: prompt }]
     try {
-        response.openai = await openai.createChatCompletion({
-            model: "gpt-3.5-turbo",
-            messages: [{ role: "user", content: prompt }],
-            temperature: 0.7,
-            max_tokens: 100,
-            top_p: 1,
-            frequency_penalty: 0.2,
-            presence_penalty: 0,
-        });
+        const savedChat = await chat.getChat(userId, chatId)
+        console.log("savedChat:", savedChat);
+        if (savedChat) {
+            const history = await chat.convertChatHistory(savedChat)
+            messages = [...messages, ...history]
+        }
+        if (isHumanize) {
+            response.data = await processWithHixAPI(prompt);
+            response.hixai = response.data.output.replace(/^\n{0,2}/, '');
+            response.db = await chat.newResponse(prompt, response, userId);
+        }
+        else {
+            response.openai = await openai.createChatCompletion({
+                model: "gpt-3.5-turbo",
+                messages,
+                temperature: 0.7,
+                max_tokens: 100,
+                top_p: 1,
+                frequency_penalty: 0.2,
+                presence_penalty: 0,
+            });
 
-        if (response?.openai?.data?.choices?.[0]?.message?.content) {
-            response.openai = response.openai.data.choices[0].message.content;
-            response.openai = response.openai.replace(/^\n{0,2}/, '');
-            response.db = await chat.updateChat(chatId, prompt, response, userId)
+            if (response?.openai?.data?.choices?.[0]?.message?.content) {
+                response.openai = response.openai.data.choices[0].message.content;
+                response.openai = response.openai.replace(/^\n{0,2}/, '');
+
+                // Step 2: Send ChatGPT response to Hix API for processing
+                response.data = await processWithHixAPI(response.openai, isHumanize);
+
+                response.hixai = response.data.output.replace(/^\n{0,2}/, '');
+
+                response.db = await chat.updateChat(chatId, prompt, response, userId)
+            }
         }
     } catch (err) {
+        console.log("Error in chat.js:", err);
         res.status(500).json({
             status: 500,
             message: err
         })
     } finally {
-        if (response?.db && response?.openai) {
+        if (response?.db && response?.hixai) {
             res.status(200).json({
                 status: 200,
                 message: 'Success',
                 data: {
-                    content: response.openai
+                    content: response.hixai,
+                    isHumanize,
+                    data: response.data,
+                    message: response.data.error_message || 'No error'
                 }
             })
         }

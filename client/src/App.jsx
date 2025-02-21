@@ -5,6 +5,7 @@ import { Error, Forgot, Login, Main, Signup } from "./page";
 import { useSelector } from "react-redux";
 import ProtectedRoute from "./protected";
 import Loading from "./components/loading/loading";
+import Pricing from "./components/content/pricing";
 
 const App = () => {
   const [offline, setOffline] = useState(!window.navigator.onLine);
@@ -47,11 +48,6 @@ const App = () => {
 
   return (
     <section className={user ? "main-grid" : null}>
-      {user && (
-        <div>
-          <Menu changeColorMode={changeColorMode} />
-        </div>
-      )}
 
       {loading && <Loading />}
 
@@ -61,14 +57,17 @@ const App = () => {
           content={"Website in offline check your network."}
         />
       )}
-
+      {user && (
+          <div>
+            <Menu changeColorMode={changeColorMode} />
+          </div>
+        )}
       <Routes>
         <Route element={<ProtectedRoute offline={offline} authed={true} />}>
           <Route exact path="/" element={<Main />} />
           <Route path="/chat" element={<Main />} />
           <Route path="/chat/:id" element={<Main />} />
         </Route>
-
         <Route element={<ProtectedRoute offline={offline} />}>
           <Route path="/login" element={<Login />} />
           <Route path="/login/auth" element={<Login />} />
@@ -83,6 +82,7 @@ const App = () => {
             <Error status={404} content={"This page could not be found."} />
           }
         />
+        <Route exact path="/pricing" element={<Pricing />} />
       </Routes>
     </section>
   );

@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 let messagesSlice = createSlice({
     name: 'messages',
     initialState: {
+        isHumanize: false,
         prompt: '',
         content: '',
         _id: null,
@@ -76,9 +77,13 @@ let messagesSlice = createSlice({
         livePrompt: (state, { payload }) => {
             state.prompt = payload
             return state
+        },
+        toggleHumanize: (state) => {
+            state.isHumanize = !state.isHumanize
+            return state
         }
     }
 })
 
-export const { emptyAllRes, insertNew, livePrompt, addList } = messagesSlice.actions
+export const { emptyAllRes, insertNew, livePrompt, addList, toggleHumanize } = messagesSlice.actions
 export default messagesSlice.reducer

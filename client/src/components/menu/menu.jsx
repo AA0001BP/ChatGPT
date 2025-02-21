@@ -1,13 +1,16 @@
 import React, { Fragment, useEffect, useRef, useState } from 'react'
 import {
-  Avatar, Bar, LogOut, Message, Plus, Settings, Tab, Tick, Trash, Xicon
+  Avatar, Bar, LogOut, Message, Plus, Settings, Tab, Tick, Trash, Xicon, Power
 } from '../../assets/'
+
 import { emptyUser } from '../../redux/user'
+import { Award } from 'lucide-react';
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { activePage, addHistory } from '../../redux/history'
 import instance from '../../config/instance'
 import './style.scss'
+import { toggleHumanize } from '../../redux/messages'
 
 const Menu = ({ changeColorMode }) => {
   let path = window.location.pathname
@@ -19,7 +22,8 @@ const Menu = ({ changeColorMode }) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const { history } = useSelector((state) => state)
+  const { history, messages: { isHumanize = false } } = useSelector((state) => state)
+  console.log("Menu -> isHumanize", isHumanize)
   const [confirm, setConfim] = useState(false)
 
   const logOut = async () => {
@@ -64,6 +68,10 @@ const Menu = ({ changeColorMode }) => {
   const showMenuMd = () => {
     menuRef.current.classList.add("showMd")
     document.body.style.overflowY = "hidden"
+  }
+
+  const handleToggle = () => {
+    dispatch(toggleHumanize())
   }
 
   //Menu
@@ -146,6 +154,12 @@ const Menu = ({ changeColorMode }) => {
       </header>
 
       <div className="menu" ref={menuRef}>
+        {/* New Humanize Toggle */}
+        <div>
+          <button type='button' aria-label='toggle' onClick={handleToggle} style={{ background: isHumanize ? 'oklch(0.696 0.17 162.48)' : 'transparent' }}>
+            <Power />{isHumanize ? "Humanization On" : "Humanization Off"}
+          </button>
+        </div>
         <div>
           <button
             type='button'
@@ -161,6 +175,7 @@ const Menu = ({ changeColorMode }) => {
             <Plus />New chat
           </button>
         </div>
+
 
         <div className="history">
           {
@@ -209,6 +224,9 @@ const Menu = ({ changeColorMode }) => {
           {/* <button onClick={() => {
             window.open('https://help.openai.com/en/collections/3742473-chatgpt', '_blank')
           }}><Tab />Get help</button> */}
+          <button onClick={() => navigate('/pricing')} >
+            <Award />Upgrade to Pro
+          </button>
           <button onClick={logOut} >
             <LogOut />Log out
           </button>

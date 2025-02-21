@@ -70,7 +70,7 @@ const New = memo(() => {
           </div>
 
           <div className='card card-bg'>
-            <p className='currentColor'>May occasionally produce harmful instructions or biased content</p>
+            <p className='currentColor'>May occasionally produce biased content</p>
           </div>
 
           <div className='card card-bg'>
