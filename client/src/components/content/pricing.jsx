@@ -1,24 +1,54 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { X } from 'lucide-react';
 import { setLoading } from '../../redux/loading';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { planConfigs } from '../../config/pricing';
 import PlanCard from '../wrappers/PlanCard';
 import { useNavigate } from 'react-router-dom';
+import { subscriptionService } from '../../services/subscription';
 
 const Pricing = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
+
+    const [currentPlan, setCurrentPlan] = useState('pro');
+    const { user } = useSelector(state => state);
+
+    useEffect(() => {
+        console.log("working here")
+        const fetchSubscriptionStatus = async () => {
+            try {
+                const response = await subscriptionService.getSubscriptionStatus();
+                console.log("useEffect", response);
+                console.log("fetchSubscriptionStatus", response);
+                if (response.data?.planType) {
+                    setCurrentPlan(response.data.planType);
+                }
+            } catch (error) {
+                if (error?.response?.data?.status === 405) {
+                    navigate("/login");
+                }
+                console.error('Error fetching subscription status:', error);
+            }
+        };
+        console.log("user", user)
+        if (user) {
+            fetchSubscriptionStatus();
+        }
+        dispatch(setLoading(false));
+    }, [user]);
+
     useEffect(() => {
         dispatch(setLoading(false));
     }, []);
+
     return (
         <div className="min-h-screen flex flex-col justify-center items-center p-8 text-white" style={{ backgroundColor: "#212121" }}>
             {/* Header */}
             <div className="flex justify-between items-center mb-8">
                 <h2 className="text-xl md:text-3xl font-semibold">Upgrade your plan</h2>
                 <button className="text-gray-400 hover:text-white absolute top-6 right-6">
-                    <X size={24} onClick={() => navigate('/')} className='cursor-pointer'/>
+                    <X size={24} onClick={() => navigate('/')} className='cursor-pointer' />
                 </button>
             </div>
 
@@ -32,11 +62,15 @@ const Pricing = () => {
 
 
             {/* Plans Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <PlanCard {...planConfigs.free} />
-                <PlanCard {...planConfigs.plus} />
-                <PlanCard {...planConfigs.pro} />
-            </div>
+            <div className="flex justify-center ">
+                    {Object.entries(planConfigs).map(([key, plan]) => (
+                        <PlanCard
+                            key={key}
+                            {...plan}
+                            isCurrentPlan={currentPlan === key}
+                        />
+                    ))}
+                </div>
 
             {/* Footer */}
             <div className="mt-8 text-center">

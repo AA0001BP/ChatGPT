@@ -58,14 +58,15 @@ const App = () => {
         />
       )}
       {user && (
-          <div>
-            <Menu changeColorMode={changeColorMode} />
-          </div>
-        )}
+        <div>
+          <Menu changeColorMode={changeColorMode} />
+        </div>
+      )}
       <Routes>
         <Route element={<ProtectedRoute offline={offline} authed={true} />}>
           <Route exact path="/" element={<Main />} />
           <Route path="/chat" element={<Main />} />
+          <Route exact path="/pricing" element={<Pricing />} />
           <Route path="/chat/:id" element={<Main />} />
         </Route>
         <Route element={<ProtectedRoute offline={offline} />}>
@@ -82,7 +83,6 @@ const App = () => {
             <Error status={404} content={"This page could not be found."} />
           }
         />
-        <Route exact path="/pricing" element={<Pricing />} />
       </Routes>
     </section>
   );

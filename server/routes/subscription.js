@@ -1,5 +1,5 @@
 import { Router } from "express";
-import express from 'express'; 
+import express from 'express';
 import stripe from 'stripe';
 import jwt from 'jsonwebtoken';
 import subscriptionHelper from '../helpers/subscription.js';
@@ -31,36 +31,44 @@ const sendSubscriptionEmail = (session) => {
 
 // Similar to your CheckLogged middleware
 const CheckAuth = async (req, res, next) => {
-    const token = req.cookies.userToken;
-
-    jwt.verify(token, process.env.JWT_PRIVATE_KEY, async (err, decoded) => {
+    jwt.verify(req.cookies?.userToken, process.env.JWT_PRIVATE_KEY, async (err, decoded) => {
         if (decoded) {
+            let userData = null
+
             try {
-                const userData = await user.checkUserFound(decoded);
-                if (userData) {
-                    req.user = userData;
-                    next();
-                } else {
-                    res.clearCookie('userToken');
-                    res.status(401).json({
-                        status: 401,
-                        message: 'Unauthorized'
-                    });
-                }
+                userData = await user.checkUserFound(decoded)
             } catch (err) {
-                res.status(500).json({
-                    status: 500,
-                    message: err.text || 'Server error'
-                });
+                if (err?.notExists) {
+                    res.clearCookie('userToken')
+                        .status(405).json({
+                            status: 405,
+                            message: err?.text
+                        })
+                } else {
+                    res.status(500).json({
+                        status: 500,
+                        message: err
+                    })
+                }
+            } finally {
+                if (userData) {
+                    req.user = userData
+                    next()
+                }
             }
+
         } else {
-            res.status(401).json({
-                status: 401,
-                message: 'Unauthorized'
-            });
+            res.status(405).json({
+                status: 405,
+                message: 'Not Logged'
+            })
         }
-    });
-};
+    })
+}
+
+router.get('/health', (req, res) => {
+    res.send("subscription api is working fine")
+})
 
 // Get current subscription status
 router.get('/status', CheckAuth, async (req, res) => {
@@ -80,12 +88,12 @@ router.get('/status', CheckAuth, async (req, res) => {
 
 // Create checkout session
 router.post('/create-checkout-session', CheckAuth, async (req, res) => {
+    const { userId } = req.body;
     try {
         const { priceId, planType } = req.body;
-        
         // Get existing subscription if any
-        const currentSubscription = await subscriptionHelper.getSubscription(req.user._id);
-        
+        const currentSubscription = await subscriptionHelper.getSubscription(userId);
+
         if (currentSubscription?.status === 'active' && currentSubscription?.planType === planType) {
             return res.status(400).json({
                 status: 400,
@@ -101,20 +109,21 @@ router.post('/create-checkout-session', CheckAuth, async (req, res) => {
             cancel_url: `${process.env.SITE_URL}/pricing`,
             client_reference_id: req.user._id.toString(),
             customer_email: req.user.email,
-            metadata: { 
+            metadata: {
                 planType,
                 userId: req.user._id.toString()
             }
         });
-
+        console.log("session response", session)
         res.json({
             status: 200,
-            data: { sessionId: session.id }
+            data: session
         });
     } catch (error) {
+        console.log("session error", error)
         res.status(500).json({
             status: 500,
-            message: error.message || 'Server error'
+            message: error.message || 'Server error while creating checkout session'
         });
     }
 });
@@ -123,7 +132,7 @@ router.post('/create-checkout-session', CheckAuth, async (req, res) => {
 router.post('/cancel', CheckAuth, async (req, res) => {
     try {
         const subscription = await subscriptionHelper.getSubscription(req.user._id);
-        
+
         if (!subscription || subscription.status !== 'active') {
             return res.status(400).json({
                 status: 400,
@@ -133,7 +142,7 @@ router.post('/cancel', CheckAuth, async (req, res) => {
 
         // Cancel on Stripe
         await stripeClient.subscriptions.cancel(subscription.stripeSubscriptionId);
-        
+
         // Update local DB
         await subscriptionHelper.cancelSubscription(req.user._id);
 
@@ -150,7 +159,9 @@ router.post('/cancel', CheckAuth, async (req, res) => {
 });
 
 // Webhook handler
-router.post('/webhook', express.raw({type: 'application/json'}), async (req, res) => {
+router.post('/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
+    console.log('Raw webhook body:', req.body);
+    console.log('Webhook signature:', req.headers['stripe-signature']);
     const sig = req.headers['stripe-signature'];
     let event;
 
@@ -161,14 +172,14 @@ router.post('/webhook', express.raw({type: 'application/json'}), async (req, res
             process.env.STRIPE_WEBHOOK_SECRET
         );
     } catch (err) {
+        console.log("error",err)
         return res.status(400).send(`Webhook Error: ${err.message}`);
     }
-
+    console.log("something came here")
     try {
         switch (event.type) {
             case 'checkout.session.completed': {
                 const session = event.data.object;
-                console.log("kuchh to hua")
                 await subscriptionHelper.createSubscription({
                     userId: session.metadata.userId,
                     status: 'active',

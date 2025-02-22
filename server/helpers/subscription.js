@@ -8,7 +8,7 @@ export default {
         return new Promise(async (resolve, reject) => {
             try {
                 const result = await db.collection(collections.USER).updateOne(
-                    { _id: ObjectId(subscriptionData.userId) },
+                    { _id: new ObjectId(subscriptionData.userId) },
                     {
                         $set: {
                             subscription: {
@@ -33,7 +33,7 @@ export default {
         return new Promise(async (resolve, reject) => {
             try {
                 const result = await db.collection(collections.USER).findOne(
-                    { _id: ObjectId(userId) },
+                    { _id: userId },
                     { projection: { subscription: 1 } }
                 );
                 resolve(result?.subscription || { planType: 'free', status: 'active' });
@@ -47,7 +47,7 @@ export default {
         return new Promise(async (resolve, reject) => {
             try {
                 const result = await db.collection(collections.USER).updateOne(
-                    { _id: ObjectId(userId) },
+                    { _id: new ObjectId(userId) },
                     {
                         $set: {
                             "subscription.status": status,
@@ -66,7 +66,7 @@ export default {
         return new Promise(async (resolve, reject) => {
             try {
                 const result = await db.collection(collections.USER).updateOne(
-                    { _id: ObjectId(userId) },
+                    { _id: new ObjectId(userId) },
                     {
                         $set: {
                             "subscription.status": "cancelled",
@@ -86,7 +86,7 @@ export default {
             try {
                 const result = await db.collection(collections.USER).aggregate([
                     {
-                        $match: { _id: ObjectId(userId) }
+                        $match: { _id: new ObjectId(userId) }
                     },
                     {
                         $project: {
@@ -109,8 +109,8 @@ export default {
             pro: ['basic_chat', 'voice', 'file_upload', 'advanced_data_analysis', 'advanced_models', 'sora']
         };
 
-        return subscription && 
-               subscription.status === 'active' && 
-               featureAccess[subscription.planType]?.includes(feature);
+        return subscription &&
+            subscription.status === 'active' &&
+            featureAccess[subscription.planType]?.includes(feature);
     }
 };
