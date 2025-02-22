@@ -21,7 +21,10 @@ const PlanCard = ({
     const dispatch = useDispatch();
 
     const handleSubscribe = async () => {
-        if (isCurrentPlan) return;
+        if (isCurrentPlan) {
+            alert("You are already subscribed to this plan");
+            return
+        };
 
         try {
             const response = await subscriptionService.createCheckoutSession(
@@ -47,8 +50,8 @@ const PlanCard = ({
     return (
         <div className={`rounded-xl p-6 flex flex-col relative ${isPopular ? 'border-2 border-emerald-500' : 'border-1 border-white'}`}>
             {(isPopular || isCurrentPlan) && (
-                <div className={`absolute -top-3 right-6  ${isPopular ? 'bg-emerald-500': 'bg-orange-500'} text-xs px-3 py-1 rounded-full`}>
-                    {isPopular ? 'Popular' : 'Current Plan'}
+                <div className={`absolute -top-3 right-6  ${isCurrentPlan ? 'bg-orange-500' : 'bg-emerald-500'} text-xs px-3 py-1 rounded-full`}>
+                    {isCurrentPlan ? 'Active' : 'Popular'}
                 </div>
             )}
             <h3 className="text-xl font-medium mb-2">{name}</h3>
@@ -61,7 +64,6 @@ const PlanCard = ({
             <button
                 onClick={handleSubscribe}
                 className={`cursor-pointer w-full py-3 px-4 rounded-lg mb-6 text-center ${isPopular ? 'bg-emerald-500 hover:bg-emerald-600' : isCurrentPlan ? 'bg-gray-700 hover:bg-gray-600' : buttonStyle}`}
-                disabled={isCurrentPlan}
             >
                 {isCurrentPlan ? 'Current Active Plan' : buttonText}
             </button>

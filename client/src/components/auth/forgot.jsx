@@ -1,5 +1,5 @@
 import React, { Fragment, useCallback, useReducer, useState } from 'react'
-import { GptIcon, Tick, Mail } from '../../assets'
+import { Logo, Tick, Mail } from '../../assets'
 import { useNavigate } from 'react-router-dom'
 import FormFeild from './FormFeild'
 import instance from '../../config/instance'
@@ -93,7 +93,7 @@ const ForgotComponent = ({ isRequest, userId, secret }) => {
     return (
         <div className='Contain'>
             <div className='icon'>
-                <GptIcon />
+                <Logo />
             </div>
 
             {

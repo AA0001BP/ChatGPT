@@ -1,12 +1,12 @@
 import React from 'react'
-import { GptIcon } from '../../assets'
+import { Logo } from '../../assets'
 import './style.scss'
 
 const Loading = () => {
     return (
         <div data-for='Loading'>
             <div className="inner">
-                <GptIcon />
+                <Logo />
                 <div data-for="text">Please stand by, while we are checking your browser...</div>
             </div>
         </div>

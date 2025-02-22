@@ -1,5 +1,5 @@
 import React, { useReducer, useState } from 'react'
-import { GptIcon, Google, Microsoft } from '../../assets'
+import { Logo, Google, Microsoft } from '../../assets'
 import { Link, useNavigate } from 'react-router-dom'
 import FormFeild from './FormFeild'
 import { useGoogleLogin } from '@react-oauth/google'
@@ -74,7 +74,7 @@ const LoginComponent = () => {
     return (
         <div className='Contain'>
             <div className='icon'>
-                <GptIcon />
+                <Logo />
             </div>
 
             <div>

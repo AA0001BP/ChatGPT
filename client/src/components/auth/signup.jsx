@@ -1,5 +1,5 @@
 import React, { Fragment, useCallback, useReducer, useState } from 'react'
-import { GptIcon, Tick, Google, Microsoft, Mail, } from '../../assets'
+import { Logo, Tick, Google, Microsoft, Mail, } from '../../assets'
 import { Link, useNavigate } from 'react-router-dom'
 import { useGoogleLogin } from '@react-oauth/google'
 import FormFeild from './FormFeild'
@@ -103,7 +103,7 @@ const SignupComponent = () => {
   return (
     <div className='Contain'>
       <div className='icon'>
-        <GptIcon />
+        <Logo />
       </div>
 
       {

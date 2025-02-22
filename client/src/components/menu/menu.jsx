@@ -221,9 +221,6 @@ const Menu = ({ changeColorMode }) => {
               settingRef.current.style.display = 'flex'
             }
           }} ><Settings />Settings</button>
-          {/* <button onClick={() => {
-            window.open('https://help.openai.com/en/collections/3742473-chatgpt', '_blank')
-          }}><Tab />Get help</button> */}
           <button onClick={() => navigate('/pricing')} >
             <Award />Upgrade to Pro
           </button>

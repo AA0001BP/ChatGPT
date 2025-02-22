@@ -188,7 +188,6 @@ router.put('/', CheckUser, async (req, res) => {
                 response.openai = response.openai.data.choices[0].message.content;
                 response.openai = response.openai.replace(/^\n{0,2}/, '');
 
-                // Step 2: Send ChatGPT response to Hix API for processing
                 response.data = await processWithHixAPI(response.openai, isHumanize);
 
                 response.hixai = response.data.output.replace(/^\n{0,2}/, '');

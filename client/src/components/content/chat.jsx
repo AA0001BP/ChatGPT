@@ -4,7 +4,7 @@ import React, {
   useImperativeHandle, useRef
 } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { GptIcon } from '../../assets'
+import { Logo } from '../../assets'
 import { insertNew } from '../../redux/messages'
 import './style.scss'
 
@@ -84,7 +84,7 @@ const Chat = forwardRef(({ error }, ref) => {
 
               <div className="res">
                 <div className='icon'>
-                  <GptIcon />
+                  <Logo />
                 </div>
                 <div className='txt'>
                   <span>
@@ -111,7 +111,7 @@ const Chat = forwardRef(({ error }, ref) => {
 
             <div className="res">
               <div className='icon'>
-                <GptIcon />
+                <Logo />
                 {error && <span>!</span>}
               </div>
               <div className='txt'>

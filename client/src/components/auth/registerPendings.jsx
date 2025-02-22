@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { GptIcon } from '../../assets'
+import { Logo } from '../../assets'
 import instance from '../../config/instance'
 import './style.scss'
 
@@ -45,7 +45,7 @@ const RegisterPendings = ({ _id }) => {
   return (
     <div className='Contain'>
       <div className='icon'>
-        <GptIcon />
+        <Logo />
       </div>
 
       <h1>Tell us about you</h1>

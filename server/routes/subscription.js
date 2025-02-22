@@ -12,16 +12,16 @@ const stripeClient = stripe(process.env.STRIPE_SECRET_KEY);
 const router = Router();
 
 const sendSubscriptionEmail = (session) => {
-    fs.readFile(`${path.resolve(path.dirname(''))}/mail/template.html`, 'utf8', (err, html) => {
+    fs.readFile(`${path.resolve(path.dirname(''))}/mail/subscription_templater.html`, 'utf8', (err, html) => {
         if (!err) {
             html = html.replace('[TITLE]', 'Subscription Confirmed');
-            html = html.replace('[CONTENT]', `Your ${session.metadata.planType || 'pro'} plan subscription has been activated successfully.`);
-            html = html.replace('[BTN_NAME]', 'Start Using ChatGPT');
+            html = html.replace('[CONTENT]', `Your ${session.metadata.planType} plan subscription has been activated successfully.`);
+            html = html.replace('[BTN_NAME]', 'Start Using EssayAI');
             html = html.replace('[URL]', `${process.env.SITE_URL}/chat`);
 
             sendMail({
                 to: session.customer_email,
-                subject: 'ChatGPT - Subscription Confirmed',
+                subject: 'EssayAI - Subscription Confirmed',
                 html
             });
         }
