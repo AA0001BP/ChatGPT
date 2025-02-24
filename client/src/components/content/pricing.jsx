@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { planConfigs } from '../../config/pricing';
 import PlanCard from '../wrappers/PlanCard';
 import { useNavigate } from 'react-router-dom';
-import { subscriptionService } from '../../services/subscription';
 import { fetchSubscriptionStatus } from '../../services/utils';
 
 const Pricing = () => {
@@ -47,17 +46,15 @@ const Pricing = () => {
                     <PlanCard
                         key={key}
                         {...plan}
-                        isCurrentPlan={currentPlan.planType === key}
+                        currentPlan={currentPlan}
                     />
                 ))}
             </div>
 
             {/* Footer */}
             <div className="mt-8 text-center">
-                <p className="text-gray-400">* Plan features and pricing are subject to change</p>
-                {/* <p className="mt-2">
-                    Plan features and pricing are subject to change.
-                </p> */}
+                <p className="text-gray-400">**Plan features and pricing are subject to change</p>
+                
             </div>
         </div>
     );

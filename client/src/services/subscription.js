@@ -15,9 +15,16 @@ export const subscriptionService = {
     },
 
     getSubscriptionStatus: async () => {
-        console.log("reached till here")
         try {
             const response = await instance.get('/api/subscription/status');
+            return response.data;
+        } catch (error) {
+            throw error.response?.data || error.message;
+        }
+    },
+    cancelSubscription: async () => {
+        try {
+            const response = await instance.post('/api/subscription/cancel');
             return response.data;
         } catch (error) {
             throw error.response?.data || error.message;

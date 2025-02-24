@@ -209,7 +209,6 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
                 break;
             }
         }
-
         res.json({ received: true });
     } catch (error) {
         console.error('Error processing webhook:', error);

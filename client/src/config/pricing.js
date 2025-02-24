@@ -15,10 +15,5 @@ export const planConfigs = {
         "Access to all AI models"
       ],
       isPopular: true,
-      footerText: "Have an existing plan? See",
-      footerLink: {
-        text: "billing help",
-        href: "#"
-      }
     }
   };
