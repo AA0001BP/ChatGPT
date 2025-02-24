@@ -70,7 +70,7 @@ const Signup = () => {
           <>
             <SignupComponent />
 
-            <div className="bottom">
+            {/* <div className="bottom">
               <div className="start">
                 <a
                   href="https://openai.com/policies/terms-of-use"
@@ -87,7 +87,7 @@ const Signup = () => {
                   Privacy Policy
                 </a>
               </div>
-            </div>
+            </div> */}
           </>
         )}
       </div>

@@ -1,3 +1,5 @@
+@import '../../styles/variables';
+
 .light {
     div[data-for='Loading'] {
         background: white;
@@ -14,7 +16,7 @@
 
 .dark {
     div[data-for='Loading'] {
-        background: rgba(52, 53, 65, 1);
+        background: $PrimaryBackgroundColor;
 
         svg {
             color: #D9D9E3;

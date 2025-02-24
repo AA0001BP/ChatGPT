@@ -23,7 +23,6 @@ const Menu = ({ changeColorMode }) => {
   const dispatch = useDispatch()
 
   const { history, messages: { isHumanize = false } } = useSelector((state) => state)
-  console.log("Menu -> isHumanize", isHumanize)
   const [confirm, setConfim] = useState(false)
 
   const logOut = async () => {
@@ -280,7 +279,7 @@ const Modal = ({ changeColorMode, settingRef }) => {
             settingRef.current.style.display = 'none'
           }}><Xicon /></button>
         </div>
-        <div className='content ceneter'>
+        {/* <div className='content ceneter'>
           <p>Dark mode</p>
           <button
             onClick={() => {
@@ -295,10 +294,12 @@ const Modal = ({ changeColorMode, settingRef }) => {
             role='switch' type='button'>
             <div></div>
           </button>
-        </div>
-        <div className="bottom">
-          <button>Export data</button>
-          <button className='end' onClick={deleteAccount}>Delete account</button>
+        </div> */}
+        <div className="bottom p-2">
+          <div className='mt-5'>
+            <button>Export data</button>
+            <button className='end' onClick={deleteAccount}>Delete account</button>
+          </div>
         </div>
       </div>
     </div>

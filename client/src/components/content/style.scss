@@ -83,7 +83,7 @@
 
     .Chat {
         .qs {
-            background: rgba(52, 53, 65, 1);
+            background: $PrimaryBackgroundColor;
 
             .txt {
                 color: #ECECF1;
@@ -137,7 +137,6 @@
 
     .flex {
         display: flex;
-        flex-direction: row;
         gap: .875rem;
 
         @media screen and (max-width:767px) {

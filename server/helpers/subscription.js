@@ -16,8 +16,10 @@ export default {
                                 planType: subscriptionData.planType,
                                 stripeCustomerId: subscriptionData.stripeCustomerId,
                                 stripeSubscriptionId: subscriptionData.stripeSubscriptionId,
-                                currentPeriodEnd: new Date(subscriptionData.currentPeriodEnd),
-                                createdAt: new Date()
+                                planEnd: new Date(subscriptionData.currentPeriodEnd),
+                                planStart: new Date(),
+                                isProUser: true,
+                                isTrialUser: false
                             }
                         }
                     }
@@ -36,7 +38,7 @@ export default {
                     { _id: userId },
                     { projection: { subscription: 1 } }
                 );
-                resolve(result?.subscription || { planType: 'free', status: 'active' });
+                resolve(result?.subscription || {});
             } catch (err) {
                 reject({ text: "DB gets something wrong", error: err });
             }

@@ -160,7 +160,6 @@ router.post('/cancel', CheckAuth, async (req, res) => {
 
 // Webhook handler
 router.post('/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
-    console.log('Raw webhook body:', req.body);
     console.log('Webhook signature:', req.headers['stripe-signature']);
     const sig = req.headers['stripe-signature'];
     let event;
@@ -175,7 +174,6 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
         console.log("error",err)
         return res.status(400).send(`Webhook Error: ${err.message}`);
     }
-    console.log("something came here")
     try {
         switch (event.type) {
             case 'checkout.session.completed': {

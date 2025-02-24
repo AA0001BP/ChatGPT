@@ -11,6 +11,10 @@ export default {
 
             let userId = new ObjectId().toHexString()
 
+            // Calculate trial end date
+            const trialEndDate = new Date();
+            trialEndDate.setDate(trialEndDate.getDate() + 7);
+
             try {
                 let check = await db.collection(collections.USER).findOne({
                     email: email
@@ -31,7 +35,15 @@ export default {
                         pass: pass,
                         manual: manual,
                         pending: pending,
-                        expireAt: new Date()
+                        expireAt: new Date(),
+                        subscription: {
+                            status: 'trial',
+                            planType: 'pro',
+                            trialStart: new Date(),
+                            trialEnd: trialEndDate,
+                            isTrialUser: true,
+                            isProUser: false,
+                        }
                     })
                 }
             } catch (err) {

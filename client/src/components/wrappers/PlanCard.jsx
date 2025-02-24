@@ -21,11 +21,6 @@ const PlanCard = ({
     const dispatch = useDispatch();
 
     const handleSubscribe = async () => {
-        if (isCurrentPlan) {
-            alert("You are already subscribed to this plan");
-            return
-        };
-
         try {
             const response = await subscriptionService.createCheckoutSession(
                 name.toLowerCase(),
@@ -33,7 +28,6 @@ const PlanCard = ({
             );
 
             if (response.data?.id) {
-                // For testing, just log and navigate
                 console.log('Subscription session created:', response.data);
                 window.location.href = response.data.url;
             }

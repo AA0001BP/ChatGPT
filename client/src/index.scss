@@ -1,4 +1,4 @@
-$ColorBlack : #343541;
+@import 'styles/variables';
 
 html {
   scroll-behavior: smooth;
@@ -52,7 +52,7 @@ body {
 
   &:is(.dark) {
     // body background
-    background: rgba(52, 53, 65, 1);
+    background: $PrimaryBackgroundColor;
 
     .currentColor {
       color: #ECECF1;

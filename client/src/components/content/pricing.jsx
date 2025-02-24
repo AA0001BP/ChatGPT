@@ -6,41 +6,21 @@ import { planConfigs } from '../../config/pricing';
 import PlanCard from '../wrappers/PlanCard';
 import { useNavigate } from 'react-router-dom';
 import { subscriptionService } from '../../services/subscription';
+import { fetchSubscriptionStatus } from '../../services/utils';
 
 const Pricing = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const [currentPlan, setCurrentPlan] = useState('pro');
+    const [currentPlan, setCurrentPlan] = useState({ status: 'trial', planType: 'pro', isTrialExpired: false });
     const { user } = useSelector(state => state);
 
     useEffect(() => {
-        console.log("working here")
-        const fetchSubscriptionStatus = async () => {
-            try {
-                const response = await subscriptionService.getSubscriptionStatus();
-                console.log("useEffect", response);
-                console.log("fetchSubscriptionStatus", response);
-                if (response.data?.planType) {
-                    setCurrentPlan(response.data.planType);
-                }
-            } catch (error) {
-                if (error?.response?.data?.status === 405) {
-                    navigate("/login");
-                }
-                console.error('Error fetching subscription status:', error);
-            }
-        };
-        console.log("user", user)
         if (user) {
-            fetchSubscriptionStatus();
+            fetchSubscriptionStatus(setCurrentPlan);
         }
         dispatch(setLoading(false));
     }, [user]);
-
-    useEffect(() => {
-        dispatch(setLoading(false));
-    }, []);
 
     return (
         <div className="min-h-screen flex flex-col justify-center items-center p-8 text-white" style={{ backgroundColor: "#212121" }}>
@@ -63,14 +43,14 @@ const Pricing = () => {
 
             {/* Plans Grid */}
             <div className="flex justify-center ">
-                    {Object.entries(planConfigs).map(([key, plan]) => (
-                        <PlanCard
-                            key={key}
-                            {...plan}
-                            isCurrentPlan={currentPlan === key}
-                        />
-                    ))}
-                </div>
+                {Object.entries(planConfigs).map(([key, plan]) => (
+                    <PlanCard
+                        key={key}
+                        {...plan}
+                        isCurrentPlan={currentPlan.planType === key}
+                    />
+                ))}
+            </div>
 
             {/* Footer */}
             <div className="mt-8 text-center">
