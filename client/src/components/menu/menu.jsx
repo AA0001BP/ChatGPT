@@ -221,7 +221,7 @@ const Menu = ({ changeColorMode }) => {
             }
           }} ><Settings />Settings</button>
           <button onClick={() => navigate('/pricing')} >
-            <Award />{subscription.status === 'active' ? 'Manage Pro Plan' : 'Upgrade to Pro'}
+            <Award />{new Date(subscription?.planEnd) > new Date() ? 'Manage Pro Plan' : 'Upgrade to Pro'}
           </button>
           <button onClick={logOut} >
             <LogOut />Log out

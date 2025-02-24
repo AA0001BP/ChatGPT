@@ -8,6 +8,7 @@ import { addList, emptyAllRes, insertNew, livePrompt } from "../redux/messages";
 import { emptyUser } from "../redux/user";
 import instance from "../config/instance";
 import "./style.scss";
+import { fetchSubscriptionStatus } from "../services/utils";
 
 const reducer = (state, { type, status }) => {
   switch (type) {
@@ -50,6 +51,7 @@ const Main = () => {
   const { user } = useSelector((state) => state);
 
   const { id = null } = useParams();
+
 
   const [status, stateAction] = useReducer(reducer, {
     chat: false,
@@ -118,6 +120,8 @@ const InputArea = ({ status, chatRef, stateAction }) => {
   const dispatch = useDispatch();
 
   const { isHumanize, prompt, content, _id } = useSelector((state) => state.messages);
+  const { user, subscription } = useSelector(state => state);
+  const needToUpgrade = new Date(subscription?.planEnd) <= new Date();
 
   useEffect(() => {
     textAreaRef.current?.addEventListener("input", (e) => {
@@ -126,6 +130,12 @@ const InputArea = ({ status, chatRef, stateAction }) => {
         textAreaRef.current.scrollHeight + "px";
     });
   });
+
+  useEffect(() => {
+    if (user) {
+      fetchSubscriptionStatus(dispatch);
+    }
+  }, [user]);
 
   const FormHandle = async () => {
     if (isHumanize && prompt.split(" ").length < 50) {
@@ -210,10 +220,10 @@ const InputArea = ({ status, chatRef, stateAction }) => {
           <div className="flexBody">
             <div className="box">
               <textarea
-                placeholder={`${isHumanize ? "Paste your AI-generated essay here (must be over 50 words)..." : "Enter your prompt here..."}`}
+                placeholder={`${needToUpgrade ? 'Plase upgrade to Pro plan to enjoy all the current and upcoming features' : isHumanize ? "Paste your AI-generated essay here (must be over 50 words)..." : "Enter your prompt here..."}`}
                 ref={textAreaRef}
                 value={prompt}
-                readOnly={status?.loading}
+                readOnly={status?.loading || needToUpgrade}
                 onChange={(e) => {
                   dispatch(livePrompt(e.target.value));
                 }}

@@ -35,6 +35,7 @@ const LoginComponent = () => {
     })
 
     const handleInput = (e) => {
+        stateAction({ type: "error", status: false })
         setFormData({
             ...formData,
             [e.target.name]: e.target.value
@@ -47,6 +48,9 @@ const LoginComponent = () => {
                 manual: false,
                 token: response.access_token
             })
+        },
+        onError: error => {
+            stateAction({ type: 'error', status: true, message: error?.message })
         }
     })
 
@@ -70,7 +74,6 @@ const LoginComponent = () => {
             }
         }
     }
-
     return (
         <div className='Contain'>
             <div className='icon'>
@@ -117,6 +120,9 @@ const LoginComponent = () => {
 
                             <div className="btns">
                                 <button onClick={googleAuth} ><Google /> Continue with Google</button>
+                                <div>
+                                    {state?.error && <div className='error'><div>!</div> Email or password wrong.</div>}
+                                </div>
                                 {/* <button><Microsoft /> Continue with Microsoft Account</button> */}
                             </div>
 

@@ -11,10 +11,6 @@ export default {
 
             let userId = new ObjectId().toHexString()
 
-            // Calculate trial end date
-            const trialEndDate = new Date();
-            trialEndDate.setDate(trialEndDate.getDate() + 7);
-
             try {
                 let check = await db.collection(collections.USER).findOne({
                     email: email
@@ -35,15 +31,7 @@ export default {
                         pass: pass,
                         manual: manual,
                         pending: pending,
-                        expireAt: new Date(),
-                        subscription: {
-                            status: 'trial',
-                            planType: 'pro',
-                            trialStart: new Date(),
-                            trialEnd: trialEndDate,
-                            isTrialUser: true,
-                            isProUser: false,
-                        }
+                        
                     })
                 }
             } catch (err) {
@@ -138,7 +126,9 @@ export default {
             }).catch((err) => {
                 reject(err)
             })
-
+            // Calculate trial end date
+            const trialEndDate = new Date();
+            trialEndDate.setDate(trialEndDate.getDate() + 7);
             if (data) {
                 let { pass, email } = data
                 email = email.replace('_register', '')
@@ -151,7 +141,15 @@ export default {
                         email: email,
                         fName: fName,
                         lName: lName,
-                        pass: pass
+                        pass: pass,
+                        subscription: {
+                            status: 'trial',
+                            planType: 'pro',
+                            trialStart: new Date(),
+                            trialEnd: trialEndDate,
+                            isTrialUser: true,
+                            isProUser: false,
+                        }
                     })
                 } catch (err) {
                     if (err?.code === 11000) {

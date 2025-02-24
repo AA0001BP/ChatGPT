@@ -132,7 +132,7 @@ router.post('/create-checkout-session', CheckAuth, async (req, res) => {
 router.post('/cancel', CheckAuth, async (req, res) => {
     try {
         const subscription = await subscriptionHelper.getSubscription(req.user._id);
-
+        console.log("cancel not working", subscription)
         if (!subscription || subscription.status !== 'active') {
             return res.status(400).json({
                 status: 400,
@@ -140,15 +140,25 @@ router.post('/cancel', CheckAuth, async (req, res) => {
             });
         }
 
-        // Cancel on Stripe
-        await stripeClient.subscriptions.cancel(subscription.stripeSubscriptionId);
+        // Update subscription to cancel at period end
+        await stripeClient.subscriptions.update(
+            subscription.stripeSubscriptionId,
+            {
+                cancel_at_period_end: true
+            }
+        );
 
-        // Update local DB
-        await subscriptionHelper.cancelSubscription(req.user._id);
+        // Update local database
+        await subscriptionHelper.updateSubscription({
+            userId: req.user._id,
+            status: 'cancelled',
+            cancelledAt: new Date(),
+            currentPeriodEnd: subscription.planEnd
+        });
 
         res.json({
             status: 200,
-            message: 'Subscription cancelled successfully'
+            message: 'Your subscription will remain active until the end of the current billing period'
         });
     } catch (error) {
         res.status(500).json({

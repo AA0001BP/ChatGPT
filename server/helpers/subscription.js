@@ -19,7 +19,9 @@ export default {
                                 planStart: subscriptionData.currentPeriodStart,
                                 planEnd: subscriptionData.currentPeriodEnd,
                                 isProUser: true,
-                                isTrialUser: false
+                                isTrialUser: false,
+                                updatedAt: new Date(),
+                                hasPaidOnce: true
                             }
                         }
                     }
@@ -53,7 +55,29 @@ export default {
                     {
                         $set: {
                             "subscription.status": status,
-                            "subscription.updatedAt": new Date()
+                            "subscription.updatedAt": new Date(),
+                            "subscription.isProUser": false
+                        }
+                    }
+                );
+                resolve(result);
+            } catch (err) {
+                reject({ text: "DB gets something wrong", error: err });
+            }
+        });
+    },
+    updateSubscription: ({ userId, status, cancelledAt, currentPeriodEnd }) => {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const result = await db.collection(collections.USER).updateOne(
+                    { _id: new ObjectId(userId) },
+                    {
+                        $set: {
+                            "subscription.status": status,
+                            "subscription.updatedAt": new Date(),
+                            "subscription.isProUser": false,
+                            "subscription.cancelledAt": cancelledAt,
+                            "subscription.currentPeriodEnd": currentPeriodEnd
                         }
                     }
                 );
@@ -72,7 +96,8 @@ export default {
                     {
                         $set: {
                             "subscription.status": "cancelled",
-                            "subscription.cancelledAt": new Date()
+                            "subscription.cancelledAt": new Date(),
+                            "subscription.isProUser": false
                         }
                     }
                 );

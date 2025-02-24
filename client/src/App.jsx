@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 import ProtectedRoute from "./protected";
 import Loading from "./components/loading/loading";
 import Pricing from "./components/content/pricing";
+import LandingPage from "./page/landing";
 
 const App = () => {
   const [offline, setOffline] = useState(!window.navigator.onLine);
@@ -70,6 +71,7 @@ const App = () => {
           <Route path="/chat/:id" element={<Main />} />
         </Route>
         <Route element={<ProtectedRoute offline={offline} />}>
+          <Route path="/home" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/login/auth" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
