@@ -1,10 +1,11 @@
+import { setCurrentPlan } from "../redux/subscription";
 import { subscriptionService } from "./subscription";
 
-export const fetchSubscriptionStatus = async (fn) => {
+export const fetchSubscriptionStatus = async (dispatch) => {
     try {
         const response = await subscriptionService.getSubscriptionStatus();
         if (response.data?.status) {
-            fn(response.data);
+            dispatch(setCurrentPlan(response.data));
         }
     } catch (error) {
         if (error?.response?.data?.status === 405) {
@@ -37,7 +38,7 @@ export const getButtonText = (currentPlan, buttonText) => {
     else if (currentPlan.status === 'expired' && currentPlan.hasPaidOnce) {
         return `Your Plan was expired on ${formatDate(currentPlan.planEnd)} - Upgrade to Pro`;
     }
-    else if (currentPlan.status === 'cancelled' && currentPlan.planEnd > new Date()) {
+    else if (currentPlan.status === 'cancelled' && new Date(currentPlan.planEnd) > new Date()) {
         return `Your Plan will expire on ${formatDate(currentPlan.planEnd)} - Upgrade to Pro`;
     }
     return buttonText;

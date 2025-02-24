@@ -178,13 +178,18 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
         switch (event.type) {
             case 'checkout.session.completed': {
                 const session = event.data.object;
+                const subscription = await stripeClient.subscriptions.retrieve(
+                    session.subscription
+                );
                 await subscriptionHelper.createSubscription({
                     userId: session.metadata.userId,
                     status: 'active',
                     planType: session.metadata.planType,
                     stripeCustomerId: session.customer,
                     stripeSubscriptionId: session.subscription,
-                    currentPeriodEnd: new Date(session.current_period_end * 1000)
+                    currentPeriodEnd: new Date(subscription.current_period_end * 1000),
+                    currentPeriodStart: new Date(subscription.current_period_start * 1000)
+                    
                 });
 
                 sendSubscriptionEmail(session);

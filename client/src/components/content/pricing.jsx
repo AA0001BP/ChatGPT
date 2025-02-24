@@ -11,12 +11,11 @@ const Pricing = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const [currentPlan, setCurrentPlan] = useState({ status: 'trial', planType: 'pro', isTrialExpired: false });
-    const { user } = useSelector(state => state);
+    const { user, subscription } = useSelector(state => state);
 
     useEffect(() => {
         if (user) {
-            fetchSubscriptionStatus(setCurrentPlan);
+            fetchSubscriptionStatus(dispatch);
         }
         dispatch(setLoading(false));
     }, [user]);
@@ -46,7 +45,7 @@ const Pricing = () => {
                     <PlanCard
                         key={key}
                         {...plan}
-                        currentPlan={currentPlan}
+                        currentPlan={subscription}
                     />
                 ))}
             </div>
@@ -54,7 +53,7 @@ const Pricing = () => {
             {/* Footer */}
             <div className="mt-8 text-center">
                 <p className="text-gray-400">**Plan features and pricing are subject to change</p>
-                
+
             </div>
         </div>
     );

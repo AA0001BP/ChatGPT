@@ -16,8 +16,8 @@ export default {
                                 planType: subscriptionData.planType,
                                 stripeCustomerId: subscriptionData.stripeCustomerId,
                                 stripeSubscriptionId: subscriptionData.stripeSubscriptionId,
-                                planEnd: new Date(subscriptionData.currentPeriodEnd),
-                                planStart: new Date(),
+                                planStart: subscriptionData.currentPeriodStart,
+                                planEnd: subscriptionData.currentPeriodEnd,
                                 isProUser: true,
                                 isTrialUser: false
                             }

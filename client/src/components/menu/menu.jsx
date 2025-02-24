@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useRef, useState } from 'react'
 import {
-  Avatar, Bar, LogOut, Message, Plus, Settings, Tab, Tick, Trash, Xicon, Power
+  Bar, LogOut, Message, Plus, Settings, Tab, Tick, Trash, Xicon, Power
 } from '../../assets/'
 
 import { emptyUser } from '../../redux/user'
@@ -22,7 +22,7 @@ const Menu = ({ changeColorMode }) => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
-  const { history, messages: { isHumanize = false } } = useSelector((state) => state)
+  const { subscription, history, messages: { isHumanize = false } } = useSelector((state) => state)
   const [confirm, setConfim] = useState(false)
 
   const logOut = async () => {
@@ -221,7 +221,7 @@ const Menu = ({ changeColorMode }) => {
             }
           }} ><Settings />Settings</button>
           <button onClick={() => navigate('/pricing')} >
-            <Award />Upgrade to Pro
+            <Award />{subscription.status === 'active' ? 'Manage Pro Plan' : 'Upgrade to Pro'}
           </button>
           <button onClick={logOut} >
             <LogOut />Log out
