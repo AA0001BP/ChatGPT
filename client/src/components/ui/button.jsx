@@ -2,7 +2,7 @@ import React from "react";
 
 const Button = React.forwardRef(({ className, variant = "default", size = "default", ...props }, ref) => {
   const baseClasses =
-    "inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2";
+    "inline-flex cursor-pointer items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2";
 
   const variantClasses = {
     default: "bg-primary text-primary-foreground hover:bg-black/90",

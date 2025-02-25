@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom"; 
-import { Button } from "../components/ui/button"; 
+import { Link, useNavigate } from "react-router-dom";
+import { Button } from "../components/ui/button";
 import {
     Brain,
     Sparkles,
@@ -16,8 +16,9 @@ import { setLoading } from "../redux/loading";
 import { useDispatch } from "react-redux";
 
 export default function LandingPage() {
+    const navigate = useNavigate()
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-     const dispatch = useDispatch();
+    const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(setLoading(false));
@@ -41,12 +42,12 @@ export default function LandingPage() {
     return (
         <div className="min-h-screen bg-white">
             {/* Header */}
-            <div className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+            <div className="sticky top-0 z-50 w-full border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
                 <div className="container flex h-16 items-center justify-between">
                     <Link to="/" className="flex items-center space-x-2">
                         <Brain className="h-6 w-6 text-primary" />
                         <span className="text-xl font-bold">Genify</span>
-                    </Link> 
+                    </Link>
 
                     {/* Desktop Navigation */}
                     <nav className="hidden md:flex items-center space-x-4">
@@ -69,7 +70,7 @@ export default function LandingPage() {
                             Pricing
                         </button>
                         <div className="flex items-center space-x-2">
-                            <Button variant="ghost" size="sm">
+                            <Button variant="ghost" size="sm" onClick={(() => navigate("/login"))} >
                                 Log in
                             </Button>
                             <Button size="sm" onClick={() => scrollToSection("pricing")}>
@@ -95,7 +96,7 @@ export default function LandingPage() {
 
                 {/* Mobile Navigation */}
                 {isMenuOpen && (
-                    <div className="md:hidden border-b">
+                    <div className="md:hidden border-b border-border">
                         <nav className="container py-4 flex flex-col space-y-2">
                             <button
                                 onClick={() => scrollToSection("features")}
@@ -144,7 +145,7 @@ export default function LandingPage() {
                             </p>
                         </div>
                         <div className="flex flex-col sm:flex-row gap-4">
-                            <Button size="lg" onClick={() => scrollToSection("pricing")}>
+                            <Button size="lg" onClick={() => navigate("/login")}>
                                 Start 7-Day Free Trial
                             </Button>
                             <Button size="lg" variant="outline" onClick={() => scrollToSection("features")}>
@@ -165,21 +166,21 @@ export default function LandingPage() {
                         </p>
                     </div>
                     <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
-                        <div className="flex flex-col items-center text-center p-6 space-y-4 rounded-lg border bg-card">
+                        <div className="flex flex-col items-center text-center p-6 space-y-4 rounded-lg border border-border bg-card">
                             <Sparkles className="h-12 w-12 text-primary" />
                             <h3 className="text-xl font-bold">The first in the world</h3>
                             <p className="text-muted-foreground">
                                 Our AI is the only tool that bypasses Turnitin AI detection. Perfect for university students.
                             </p>
                         </div>
-                        <div className="flex flex-col items-center text-center p-6 space-y-4 rounded-lg border bg-card">
+                        <div className="flex flex-col items-center text-center p-6 space-y-4 rounded-lg border border-border bg-card">
                             <Clock className="h-12 w-12 text-primary" />
                             <h3 className="text-xl font-bold">Advanced AI Humanization</h3>
                             <p className="text-muted-foreground">
                                 Our AI analyzes and transforms your text to match natural human writing patterns and styles.
                             </p>
                         </div>
-                        <div className="flex flex-col items-center text-center p-6 space-y-4 rounded-lg border bg-card">
+                        <div className="flex flex-col items-center text-center p-6 space-y-4 rounded-lg border border-border bg-card">
                             <GraduationCap className="h-12 w-12 text-primary" />
                             <h3 className="text-xl font-bold">Academic Focus</h3>
                             <p className="text-muted-foreground">
@@ -230,7 +231,7 @@ export default function LandingPage() {
                         <p className="text-muted-foreground text-lg">Start with a 7-day free trial, no card required</p>
                     </div>
                     <div className="max-w-sm mx-auto">
-                        <div className="rounded-lg border bg-card p-8 text-center">
+                        <div className="rounded-lg border border-border bg-card p-8 text-center">
                             <h3 className="text-2xl font-bold">Student Plan</h3>
                             <div className="mt-4 flex items-baseline justify-center">
                                 <span className="text-4xl font-bold">£19</span>
@@ -265,7 +266,7 @@ export default function LandingPage() {
                         <p className="text-muted-foreground text-lg">
                             Join thousands of students who are already using Genify to improve their academic writing.
                         </p>
-                        <Button size="lg" onClick={() => scrollToSection("pricing")}>
+                        <Button size="lg" onClick={() => navigate("/login")}>
                             Join 7,000+ Students Today
                         </Button>
                     </div>
@@ -273,7 +274,7 @@ export default function LandingPage() {
             </div>
 
             {/* Footer */}
-            <div className="border-t">
+            <div className="border-t border-border">
                 <div className="container px-4 py-8 md:py-12">
                     <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
                         <div className="space-y-4">
@@ -329,7 +330,7 @@ export default function LandingPage() {
                             </ul>
                         </div>
                     </div>
-                    <div className="mt-8 pt-8 border-t flex flex-col sm:flex-row justify-between items-center gap-4">
+                    <div className="mt-8 pt-8 border-t border-border flex flex-col sm:flex-row justify-between items-center gap-4">
                         <p className="text-sm text-muted-foreground">© {new Date().getFullYear()} Genify. All rights reserved.</p>
                         <div className="flex space-x-4">
                             <Link to="#" className="text-muted-foreground hover:text-primary">

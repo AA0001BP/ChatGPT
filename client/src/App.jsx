@@ -65,13 +65,12 @@ const App = () => {
       )}
       <Routes>
         <Route element={<ProtectedRoute offline={offline} authed={true} />}>
-          <Route exact path="/" element={<Main />} />
           <Route path="/chat" element={<Main />} />
           <Route exact path="/pricing" element={<Pricing />} />
           <Route path="/chat/:id" element={<Main />} />
         </Route>
         <Route element={<ProtectedRoute offline={offline} />}>
-          <Route path="/home" element={<LandingPage />} />
+          <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<Login />} />
           <Route path="/login/auth" element={<Login />} />
           <Route path="/signup" element={<Signup />} />

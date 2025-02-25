@@ -27,7 +27,7 @@ body {
     --color-accent-foreground: oklch(20.4% 0.0633 240);
     --color-destructive: oklch(66.2% 0.2547 20);
     --color-destructive-foreground: oklch(97.5% 0 0);
-    --color-border: oklch(89.4% 0.0114 240);
+    --color-border: #e5e7eb;
     --color-input: oklch(89.4% 0.0114 240);
     --color-ring: oklch(9.9% 0 0);
     --color-chart-1: oklch(64.6% 0.2037 20);
@@ -45,4 +45,9 @@ body {
     --color-sidebar-border: oklch(91% 0.0224 250);
     --color-sidebar-ring: oklch(62.5% 0.2037 250);
     --breakpoint-2xl: 87.5rem;
+}
+
+@utility container {
+    margin-inline: auto;
+    padding-inline: 2rem;
 }
