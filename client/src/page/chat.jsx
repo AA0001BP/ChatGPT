@@ -283,7 +283,7 @@ const InputArea = ({ status, chatRef, stateAction }) => {
       )}
 
       <div className="text" style={{ textAlign: "center" }}>
-        Our goal is to make Essay AI more natural and
+        Our goal is to make Genify more natural and
         safe to interact with. Your feedback will help us improve.
       </div>
     </div>

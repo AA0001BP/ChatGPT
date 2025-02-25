@@ -16,12 +16,12 @@ const sendSubscriptionEmail = (session) => {
         if (!err) {
             html = html.replace('[TITLE]', 'Subscription Confirmed');
             html = html.replace('[CONTENT]', `Your ${session.metadata.planType} plan subscription has been activated successfully.`);
-            html = html.replace('[BTN_NAME]', 'Start Using EssayAI');
+            html = html.replace('[BTN_NAME]', 'Start Using Genify');
             html = html.replace('[URL]', `${process.env.SITE_URL}/chat`);
 
             sendMail({
                 to: session.customer_email,
-                subject: 'EssayAI - Subscription Confirmed',
+                subject: 'Genify - Subscription Confirmed',
                 html
             });
         }

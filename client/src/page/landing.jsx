@@ -251,7 +251,7 @@ export default function LandingPage() {
                                     Unlimited essays
                                 </li>
                             </ul>
-                            <Button className="w-full mt-8" size="lg">
+                            <Button className="w-full mt-8" size="lg" onClick={() => navigate("/login")}>
                                 Start 7-Day Free Trial
                             </Button>
                             <p className="mt-4 text-sm text-muted-foreground">No credit card required</p>

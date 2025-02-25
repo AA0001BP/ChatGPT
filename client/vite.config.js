@@ -27,31 +27,31 @@ export default defineConfig({
         display: "fullscreen",
         scope: "/",
         start_url: "/",
-        name: "EssayAI",
-        short_name: "EssayAI",
-        description: "EssayAI OpenAI",
-        icons: [
-          {
-            src: "/manifest/icon-192x192.png",
-            sizes: "192x192",
-            type: "image/png",
-          },
-          {
-            src: "/manifest/icon-256x256.png",
-            sizes: "256x256",
-            type: "image/png",
-          },
-          {
-            src: "/manifest/icon-384x384.png",
-            sizes: "384x384",
-            type: "image/png",
-          },
-          {
-            src: "/manifest/icon-512x512.png",
-            sizes: "512x512",
-            type: "image/png",
-          },
-        ],
+        name: "Genify",
+        short_name: "Genify",
+        description: "Genify OpenAI",
+        // icons: [
+        //   {
+        //     src: "/manifest/icon-192x192.png",
+        //     sizes: "192x192",
+        //     type: "image/png",
+        //   },
+        //   {
+        //     src: "/manifest/icon-256x256.png",
+        //     sizes: "256x256",
+        //     type: "image/png",
+        //   },
+        //   {
+        //     src: "/manifest/icon-384x384.png",
+        //     sizes: "384x384",
+        //     type: "image/png",
+        //   },
+        //   {
+        //     src: "/manifest/icon-512x512.png",
+        //     sizes: "512x512",
+        //     type: "image/png",
+        //   },
+        // ],
       },
     }),
   ],

@@ -99,7 +99,7 @@ const processWithHixAPI = async (text) => {
 
 
 router.get('/', (req, res) => {
-    res.send("Welcome to EssayAI api v1")
+    res.send("Welcome to Genify api v1")
 })
 
 router.post('/', CheckUser, async (req, res) => {

@@ -35,7 +35,7 @@ const New = memo(() => {
   return (
     <div className="New">
       <div>
-        <h1 className="title currentColor">Essay AI</h1>
+        <h1 className="title currentColor">Genify</h1>
       </div>
 
       <div className="flex">

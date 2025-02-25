@@ -41,11 +41,11 @@ const Login = () => {
         ) : (
           <div className="suggestion">
             <div>
-              <Logo />
+              <Logo size={60}/>
             </div>
 
             <div>
-              <p>Welcome to Essay AI</p>
+              <p>Welcome to Genify</p>
               <p>Log in with your OpenAI account to continue</p>
             </div>
 

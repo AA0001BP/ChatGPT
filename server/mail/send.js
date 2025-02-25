@@ -15,7 +15,7 @@ const transporter = nodemailer.createTransport({
 
 export default ({ to, subject, html }) => {
     var options = {
-        from: `EssayAI <${process.env.MAIL_EMAIL}>`,
+        from: `Genify <${process.env.MAIL_EMAIL}>`,
         to,
         subject,
         html
