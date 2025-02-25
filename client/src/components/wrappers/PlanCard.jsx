@@ -29,11 +29,11 @@ const styles = {
                 badge: "bg-red-500"
             },
             pro: {
-                border: "border-2 border-blue-500",
+                border: "border-2 border-emerald-500",
                 background: "bg-gray-800/30",
-                button: "bg-blue-500 hover:bg-blue-600",
-                checkmark: "text-blue-500",
-                badge: "bg-blue-500"
+                button: "bg-emerald-500 hover:bg-emerald-600",
+                checkmark: "text-emerald-500",
+                badge: "bg-emerald-500"
             }
         },
         cancel: {

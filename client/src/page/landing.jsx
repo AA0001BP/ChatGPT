@@ -73,7 +73,7 @@ export default function LandingPage() {
                             <Button variant="ghost" size="sm" onClick={(() => navigate("/login"))} >
                                 Log in
                             </Button>
-                            <Button size="sm" onClick={() => scrollToSection("pricing")}>
+                            <Button size="sm" onClick={() => navigate("/login")}>
                                 Start Free Trial
                             </Button>
                         </div>
@@ -119,7 +119,7 @@ export default function LandingPage() {
                             <Button
                                 className="w-full"
                                 size="sm"
-                                onClick={() => scrollToSection("pricing")}
+                                onClick={() => navigate("/login")}
                             >
                                 Start Free Trial
                             </Button>
