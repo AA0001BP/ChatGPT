@@ -1,14 +1,14 @@
 import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
-import dotnet from 'dotenv'
+import dotenv from 'dotenv'
 import { connectDB } from './db/connection.js'
 import ChatRoute from './routes/chat.js'
 import UserRoute from './routes/user.js'
 import path from 'path'
 import SubscriptionRoute from './routes/subscription.js'
 
-dotnet.config()
+dotenv.config()
 
 let app = express()
 let port = process.env.PORT
