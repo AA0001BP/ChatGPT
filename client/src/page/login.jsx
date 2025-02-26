@@ -46,7 +46,7 @@ const Login = () => {
 
             <div>
               <p>Welcome to Genify</p>
-              <p>Log in with your OpenAI account to continue</p>
+              <p>Log in with your Genify account to continue</p>
             </div>
 
             <div className="btns">

@@ -29,7 +29,7 @@ export default defineConfig({
         start_url: "/",
         name: "Genify",
         short_name: "Genify",
-        description: "Genify OpenAI",
+        description: "Genify AI",
         // icons: [
         //   {
         //     src: "/manifest/icon-192x192.png",
