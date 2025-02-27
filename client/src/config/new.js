@@ -1,6 +1,6 @@
 export const examples = [
     {
-        text: "Write a business essay on: Zero hours contracts are both illegal and immoral and UK businesses should not use them.",
+        text: "Write a business essay on: How Zero hours contracts are both illegal and immoral.",
     },
     {
         text: "Write a business assignment on the uncertainty and implications of Brexit to the UK and EU.",
