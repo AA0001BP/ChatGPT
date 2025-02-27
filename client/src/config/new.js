@@ -1,35 +1,23 @@
 export const examples = [
     {
-        text: "Explain quantum computing in simple terms",
+        text: "Write a business essay on: Zero hours contracts are both illegal and immoral and UK businesses should not use them.",
     },
     {
-        text: "Got any creative ideas for a 10 year old's birthday?",
+        text: "Write a business assignment on the uncertainty and implications of Brexit to the UK and EU.",
     },
     {
-        text: "How do I make an HTTP request in Javascript?",   
+        text: "Write a politics essay about the factors affecting voter turnout.",
     },
 ];
 
 export const capabilities = [
     {
-        text: "Remembers what user said earlier in the conversation",
+        text: "Tailored for UK university standards.",
     },
     {
-        text: "Allows user to provide follow-up corrections",
+        text: "The last model is trained to bypass Turnitin.",
     },
     {
-        text: "Trained to decline inappropriate requests",
+        text: "Generates high-quality, original content.",
     },
-];
-
-export const limitations = [
-    {
-        text: "May occasionally generate incorrect information",
-    },
-    {
-        text: "May occasionally produce biased content",
-    },
-    {
-        text: "Limited knowledge of world and events after 2021",
-    },
-];
+]

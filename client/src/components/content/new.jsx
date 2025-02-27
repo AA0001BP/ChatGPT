@@ -2,7 +2,7 @@ import React, { memo } from "react";
 import { useDispatch } from "react-redux";
 import { Sun, Thunder, Warning } from "../../assets";
 import { livePrompt } from "../../redux/messages";
-import { examples, capabilities, limitations } from "../../config/new";
+import { examples, capabilities } from "../../config/new";
 import "./style.scss";
 
 const Card = ({ icon, title, items, onClick }) => (
@@ -48,7 +48,7 @@ const New = memo(() => {
 
         <Card icon={<Thunder />} title="Capabilities" items={capabilities} />
 
-        <Card icon={<Warning />} title="Limitations" items={limitations} />
+        {/* <Card icon={<Warning />} title="Limitations" items={limitations} /> */}
       </div>
     </div>
   );

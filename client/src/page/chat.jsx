@@ -217,7 +217,7 @@ const InputArea = ({ status, chatRef, stateAction }) => {
             )}
           </div>
 
-          <div className="flexBody">
+          <div className="flexBody max-height-200">
             <div className="box">
               <textarea
                 placeholder={`${needToUpgrade ? 'Plase upgrade to Pro plan to enjoy all the current and upcoming features' : isHumanize ? "Paste your AI-generated essay here (must be over 50 words)..." : "Enter your prompt here..."}`}

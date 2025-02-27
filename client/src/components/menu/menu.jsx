@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useRef, useState } from 'react'
 import {
-  Bar, LogOut, Message, Plus, Settings, Tab, Tick, Trash, Xicon, Power
+  Bar, LogOut, Message, Plus, Settings, Tick, Trash, Xicon, Power
 } from '../../assets/'
 
 import { emptyUser } from '../../redux/user'
