@@ -220,6 +220,7 @@ const InputArea = ({ status, chatRef, stateAction }) => {
           <div className="flexBody max-height-200">
             <div className="box">
               <textarea
+                className="max-h-20"
                 placeholder={`${needToUpgrade ? 'Plase upgrade to Pro plan to enjoy all the current and upcoming features' : all.length > 0 && !status?.resume ? `Please start a new chat` : isHumanize ? "Paste your AI-generated essay here (must be over 50 words)..." : "Enter your prompt here..."}`}
                 ref={textAreaRef}
                 value={prompt}
@@ -228,7 +229,7 @@ const InputArea = ({ status, chatRef, stateAction }) => {
                   dispatch(livePrompt(e.target.value));
                 }}
                 onKeyDown={(e) => {
-                  if (e.key === "Enter" && !e.shiftKey) {
+                  if (e.key === "Enter" && !e.shiftKey && prompt?.trim().length > 0) {
                     e.preventDefault();
                     FormHandle();
                   }
