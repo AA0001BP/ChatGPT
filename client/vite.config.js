@@ -8,9 +8,9 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://localhost:5000/api",
+        target: process.env.VITE_API_URL || 'http://localhost:5001',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ""),
+        secure: false
       },
     },
   },
@@ -18,41 +18,28 @@ export default defineConfig({
     react(),
     tailwindcss(),
     VitePWA({
+      registerType: 'autoUpdate',
       devOptions: {
-        enabled: false,
+        enabled: true
       },
       manifest: {
-        theme_color: "#fff",
-        background_color: "#fff",
-        display: "fullscreen",
-        scope: "/",
-        start_url: "/",
-        name: "Genify",
-        short_name: "Genify",
-        description: "Genify AI",
-        // icons: [
-        //   {
-        //     src: "/manifest/icon-192x192.png",
-        //     sizes: "192x192",
-        //     type: "image/png",
-        //   },
-        //   {
-        //     src: "/manifest/icon-256x256.png",
-        //     sizes: "256x256",
-        //     type: "image/png",
-        //   },
-        //   {
-        //     src: "/manifest/icon-384x384.png",
-        //     sizes: "384x384",
-        //     type: "image/png",
-        //   },
-        //   {
-        //     src: "/manifest/icon-512x512.png",
-        //     sizes: "512x512",
-        //     type: "image/png",
-        //   },
-        // ],
-      },
+        name: 'Genify AI',
+        short_name: 'Genify',
+        description: 'Advanced AI chatbot with natural language capabilities',
+        theme_color: '#ffffff',
+        icons: [
+          {
+            src: 'favicon.png',
+            sizes: '192x192',
+            type: 'image/png'
+          },
+          {
+            src: 'favicon.png',
+            sizes: '512x512',
+            type: 'image/png'
+          }
+        ]
+      }
     }),
   ],
 });

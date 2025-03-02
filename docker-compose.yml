@@ -1,0 +1,71 @@
+version: "3.8"
+
+services:
+  nginx:
+    image: nginx:alpine
+    container_name: genify-nginx
+    restart: always
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "80:80"
+    depends_on:
+      - client
+      - server
+    networks:
+      - genify-network
+
+  server:
+    build: ./server
+    container_name: genify-server
+    restart: always
+    expose:
+      - "5000"
+    environment:
+      - PORT=5000
+      - MONGO_URL=mongodb://mongodb:27017/chatGPT
+      - SITE_URL=https://${DOMAIN_URL}
+      - JWT_PRIVATE_KEY=${JWT_PRIVATE_KEY}
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - OPENAI_ORGANIZATION_ID=${OPENAI_ORGANIZATION_ID}
+      - MAIL_EMAIL=${MAIL_EMAIL}
+      - MAIL_SECRET=${MAIL_SECRET}
+      - HIX_API_KEY=${HIX_API_KEY}
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
+      - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET}
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    depends_on:
+      - mongodb
+    networks:
+      - genify-network
+
+  client:
+    build: ./client
+    container_name: genify-client
+    restart: always
+    expose:
+      - "80"
+    environment:
+      - VITE_API_URL=https://${DOMAIN_URL}
+    depends_on:
+      - server
+    networks:
+      - genify-network
+
+  mongodb:
+    image: mongo:latest
+    container_name: genify-mongodb
+    restart: always
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - genify-network
+
+networks:
+  genify-network:
+    driver: bridge
+
+volumes:
+  mongodb_data: 
