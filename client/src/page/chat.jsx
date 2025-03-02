@@ -221,7 +221,7 @@ const InputArea = ({ status, chatRef, stateAction }) => {
             <div className="box">
               <textarea
                 className="max-h-20"
-                placeholder={`${needToUpgrade ? 'Plase upgrade to Pro plan to enjoy all the current and upcoming features' : all.length > 0 && !status?.resume ? `Please start a new chat` : isHumanize ? "Paste your AI-generated essay here (must be over 50 words)..." : "Enter your prompt here..."}`}
+                placeholder={`${needToUpgrade ? 'Please upgrade to Pro plan to enjoy all the current and upcoming features' : all.length > 0 && !status?.resume ? `Please start a new chat` : isHumanize ? "Paste your AI-generated essay here (50+ words)..." : "What is the topic of your essay? Include any instructions..."}`}
                 ref={textAreaRef}
                 value={prompt}
                 readOnly={status?.loading || needToUpgrade || all.length > 0}
