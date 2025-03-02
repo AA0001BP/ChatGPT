@@ -156,7 +156,7 @@ const Menu = ({ changeColorMode }) => {
         {/* New Humanize Toggle */}
         <div>
           <button type='button' aria-label='toggle' onClick={handleToggle} style={{ background: isHumanize ? 'oklch(0.696 0.17 162.48)' : 'transparent' }}>
-            <Power />{isHumanize ? "Humanization On" : "Humanization Off"}
+            <Power />{isHumanize ? "Mode: Humanize Only" : "Mode: Create an essay from scratch"}
           </button>
         </div>
         <div>
