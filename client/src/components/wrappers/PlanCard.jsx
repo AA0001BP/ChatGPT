@@ -22,11 +22,11 @@ const styles = {
         },
         active: {
             trial: {
-                border: "border-2 border-red-500",
+                border: "border-2 border-green-500",
                 background: "bg-gray-800/30",
-                button: "bg-red-500 hover:bg-red-600",
-                checkmark: "text-red-500",
-                badge: "bg-red-500"
+                button: "bg-green-500 hover:bg-green-600",
+                checkmark: "text-green-500",
+                badge: "bg-green-500"
             },
             pro: {
                 border: "border-2 border-emerald-500",
@@ -37,7 +37,7 @@ const styles = {
             }
         },
         cancel: {
-            button: "text-red-400 hover:text-red-300"
+            button: "text-green-400 hover:text-green-300"
         }
     }
 };
@@ -183,4 +183,4 @@ const PlanCard = ({
     );
 };
 
-export default PlanCard; 
+export default PlanCard;
