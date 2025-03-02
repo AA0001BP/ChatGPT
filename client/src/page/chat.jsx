@@ -285,7 +285,7 @@ const InputArea = ({ status, chatRef, stateAction }) => {
 
       <div className="text" style={{ textAlign: "center" }}>
         Our goal is to make Genify more natural and
-        safe to interact with. Your feedback will help us improve.
+        safe to interact with. Please review and proofread the results as Genify intentionally introduces grammatical mistakes. You may correct them before submitting the essay to Turnitin.
       </div>
     </div>
   );
