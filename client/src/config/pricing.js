@@ -2,7 +2,7 @@ export const planConfigs = {
     pro: {
       name: "Pro",
       price: "19",
-      priceId: "price_1Qvzf2A0pM3Jf1NWX7EzjitZ",
+      priceId: "price_1QyGj1E242PDs4apFDoOkHZe",
       description: "The most powerful AI humanizer with unlimited access and premium support. Start with a 7-day free trial.",
       buttonText: "Start Free Trial",
       buttonStyle: "bg-white text-black hover:bg-gray-300",
