@@ -1,14 +1,16 @@
 @import '../../index.scss';
 
+// Define variables for green colors
+$green-solid: rgba(16, 163, 127, 1);
+$green-light: rgba(16, 163, 127, 0.1);
+
 @keyframes txtBlink {
     0% {
         border-right: 4px solid;
     }
-
     50% {
         border-right: none;
     }
-
     100% {
         border-right: 4px solid;
     }
@@ -93,8 +95,9 @@
         .res {
             border-top: 1px solid rgba(32, 33, 35, .5);
             border-bottom: 1px solid rgba(32, 33, 35, .5);
-            .icon{
-                background:white;
+
+            .icon {
+                background: white;
             }
 
             .txt {
@@ -141,7 +144,7 @@
         display: flex;
         gap: .875rem;
 
-        @media screen and (max-width:767px) {
+        @media screen and (max-width: 767px) {
             flex-direction: column;
         }
 
@@ -155,7 +158,7 @@
             display: flex;
             flex-direction: column;
 
-            @media screen and (max-width:767px) {
+            @media screen and (max-width: 767px) {
                 flex-basis: 100%;
             }
 
@@ -169,7 +172,6 @@
                 }
             }
         }
-
     }
 }
 
@@ -270,7 +272,7 @@
 
             span {
                 position: absolute;
-                background: rgba(239, 68, 68, 1);
+                background: $green-solid;
                 border-radius: 50%;
                 font-size: 10px;
                 width: 1rem;
@@ -289,8 +291,8 @@
             display: block;
 
             .error {
-                background: rgba(239, 68, 68, .1);
-                border: 1px solid rgba(239, 68, 68, 1);
+                background: $green-light;
+                border: 1px solid $green-solid;
                 border-radius: .375rem;
                 padding: 0.75rem;
                 font-size: .875rem;
