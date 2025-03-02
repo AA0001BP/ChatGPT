@@ -106,7 +106,7 @@ router.post('/', CheckUser, async (req, res) => {
     const { prompt, userId, isHumanize = false } = req.body
 
     let response = {}
-    let content = isHumanize ? prompt : `Write an essay for more than 50 words based on the given prompt after this. ${prompt}`
+    let content = isHumanize ? prompt : `Write an essay based on the given prompt after this. ${prompt}`
 
     try {
         if (isHumanize) {
@@ -117,11 +117,11 @@ router.post('/', CheckUser, async (req, res) => {
         }
         else {
             response.openai = await openai.createChatCompletion({
-                model: "gpt-3.5-turbo",
+                model: "gpt-4o-mini-2024-07-18",
                 messages: [{ role: "user", content }],
-                temperature: 0,
+                temperature: 0.7,
                 max_tokens: 500,
-                top_p: 1,
+                top_p: 0.8,
                 frequency_penalty: 0.2,
                 presence_penalty: 0,
             });
