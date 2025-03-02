@@ -112,7 +112,7 @@ const SignupComponent = () => {
             <div>
               <h1>Create your account</h1>
 
-              <p>Please note that phone verification is required for signup. Your number will only be used to verify your identity for security purposes.</p>
+              <p>Please note that email verification is required for signup. Your email will only be used to verify your identity for security purposes.</p>
 
             </div>
 

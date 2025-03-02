@@ -47,6 +47,14 @@ const App = () => {
     });
   });
 
+  useEffect(() => {
+    let mode = localStorage.getItem("darkMode");
+    if(!mode){
+      changeColorMode(true);
+      document.body.className = "dark";
+    }
+  },[])
+
   return (
     <section className={user ? "main-grid" : null}>
 

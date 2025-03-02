@@ -91,9 +91,11 @@
         }
 
         .res {
-            background: #444654;
             border-top: 1px solid rgba(32, 33, 35, .5);
             border-bottom: 1px solid rgba(32, 33, 35, .5);
+            .icon{
+                background:white;
+            }
 
             .txt {
                 .error {
@@ -251,7 +253,6 @@
             width: 30px;
             height: 30px;
             border: none;
-            background: rgb(16, 163, 127);
             justify-content: center;
             align-items: center;
             border-radius: 2px;
@@ -265,7 +266,6 @@
             svg {
                 width: 1.5rem;
                 height: 1.5rem;
-                color: white;
             }
 
             span {

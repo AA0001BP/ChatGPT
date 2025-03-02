@@ -239,8 +239,8 @@
     z-index: 1000;
     bottom: 0;
     height: auto;
-    min-height: 17%;
     width: calc(100vw - 260px) !important;
+    background: $PrimaryBackgroundColor;
 
     @media screen and (max-width: 767px) {
       width: 100% !important;
@@ -339,7 +339,6 @@
           resize: none;
           font-weight: normal;
           overflow-y: auto;
-          max-height: 12em;
 
           &::-webkit-scrollbar {
             width: 8px;

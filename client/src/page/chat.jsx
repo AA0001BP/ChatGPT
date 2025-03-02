@@ -119,7 +119,7 @@ const InputArea = ({ status, chatRef, stateAction }) => {
 
   const dispatch = useDispatch();
 
-  const { isHumanize, prompt, content, _id } = useSelector((state) => state.messages);
+  const { all, isHumanize, prompt, content, _id } = useSelector((state) => state.messages);
   const { user, subscription } = useSelector(state => state);
   const needToUpgrade = new Date(subscription?.planEnd) <= new Date();
 
@@ -217,18 +217,19 @@ const InputArea = ({ status, chatRef, stateAction }) => {
             )}
           </div>
 
-          <div className="flexBody">
+          <div className="flexBody max-height-200">
             <div className="box">
               <textarea
-                placeholder={`${needToUpgrade ? 'Plase upgrade to Pro plan to enjoy all the current and upcoming features' : isHumanize ? "Paste your AI-generated essay here (must be over 50 words)..." : "Enter your prompt here..."}`}
+                className="max-h-20"
+                placeholder={`${needToUpgrade ? 'Plase upgrade to Pro plan to enjoy all the current and upcoming features' : all.length > 0 && !status?.resume ? `Please start a new chat` : isHumanize ? "Paste your AI-generated essay here (must be over 50 words)..." : "Enter your prompt here..."}`}
                 ref={textAreaRef}
                 value={prompt}
-                readOnly={status?.loading || needToUpgrade}
+                readOnly={status?.loading || needToUpgrade || all.length > 0}
                 onChange={(e) => {
                   dispatch(livePrompt(e.target.value));
                 }}
                 onKeyDown={(e) => {
-                  if (e.key === "Enter" && !e.shiftKey) {
+                  if (e.key === "Enter" && !e.shiftKey && prompt?.trim().length > 0) {
                     e.preventDefault();
                     FormHandle();
                   }
