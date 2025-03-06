@@ -26,7 +26,7 @@ const Menu = ({ changeColorMode }) => {
   const [confirm, setConfim] = useState(false)
 
   const logOut = async () => {
-    if (window.confirm("Do you want log out")) {
+    if (window.confirm("Are you sure you want to log out?")) {
       let res = null
       try {
         res = await instance.get('/api/user/logout')
@@ -34,7 +34,6 @@ const Menu = ({ changeColorMode }) => {
         alert(err)
       } finally {
         if (res?.data?.status === 200) {
-          alert("Done")
           dispatch(emptyUser())
           navigate('/login')
         }
